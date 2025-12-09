@@ -1,5 +1,7 @@
 # Промпты агентов для мультиагентной разработки в Claude Code и Cursor.
 
+Расширенное описание подхода приведено в [статье](https://habr.com/ru/articles/971620/).
+
 Общее описание подхода: [00_agent_development.md](https://github.com/rdudov/agents/blob/master/00_agent_development.md)
 
 Промпт оркестратора, который координирует работу остальных агентов: 01_orchestrator.md
