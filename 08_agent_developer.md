@@ -167,6 +167,8 @@ def test_calculate_discount_for_unknown_level():
 - Обязательно сохраняй хотя бы один сквозной тест без моков, который проверяет основную пользовательскую функцию приложения или сервиса
 - Не подменяй проверку реального приложения тестами только вокруг фикстур, helper-кода или test harness
 - Если задача меняет сервис, API, daemon, worker или другой runtime-процесс, обязательно проверь реальный entrypoint в целевом режиме запуска (`run.sh`, `systemd`, `docker compose`, production-like CLI entrypoint и т.п.), а не только in-process тесты
+- Если поведение различается по порогу, режиму, провайдеру, credential/token, feature flag, transport, model-variant или fallback-ветке, отдельно проверь каждую production-relevant ветку. Один рабочий happy-path не доказывает корректность остальных веток.
+- Если ветка покрыта только fake model, mock provider, stub runtime или test harness, не выдавай её как подтверждённо рабочую. Либо добей реальную проверку, либо явно зафиксируй verification gap в отчёте.
 
 ### 3. Запустить тесты и предоставить отчёт
 
@@ -176,6 +178,7 @@ def test_calculate_discount_for_unknown_level():
 1. Все новые тесты, которые ты написал
 2. Все тесты, указанные в описании задачи
 3. Все регрессионные тесты проекта
+4. Все branch-specific runtime smoke/e2e проверки, требуемые для production-веток, затронутых задачей
 
 **Формат отчёта о тестировании:**
 
