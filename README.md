@@ -15,6 +15,7 @@
 - [07_agent_plan_reviewer.md](https://github.com/rdudov/agents/blob/master/07_agent_plan_reviewer.md)
 - [08_agent_developer.md](https://github.com/rdudov/agents/blob/master/08_agent_developer.md)
 - [09_agent_code_reviewer.md](https://github.com/rdudov/agents/blob/master/09_agent_code_reviewer.md)
+- [10_agent_blocker_rescuer.md](https://github.com/rdudov/agents/blob/master/10_agent_blocker_rescuer.md) — optional summary layer after deterministic rescuer executor
 
 Пример промпта для запуска мультиагентной разработки в Cursor, чтобы он автоматически стартовал субагентов с нужными ролями. 
 ```
@@ -25,7 +26,7 @@
 
 Каталог артефактов пайплайна: docs/implementation
 
-Промпты агентов с указанными в 01_orchestrator.md ролями находятся в agents (02*.md..09.md).
+Промпты агентов с указанными в 01_orchestrator.md ролями находятся в agents (02*.md..10.md).
 Агентов нужно вызывать shell-командами:
 agent -f --model {модель} -p {промпт}
 и дожидаться от них результатов.

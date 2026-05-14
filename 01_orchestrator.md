@@ -80,8 +80,35 @@
 2. Архитектура (Архитектор → Ревьюер архитектуры)
 3. Планирование (Планировщик → Ревьюер плана)
 4. Разработка (Разработчик → Ревьюер кода) — для каждой задачи из плана
+5. Точечное снятие машинно-разрешимых блокеров (Rescuer) — только по решению оркестратора и только для environment/evidence/stale-artifact проблем
 
 Всегда указывай текущий этап, номер итерации и следующее действие.
+```
+
+### Ветка Rescuer для машинно-разрешимых блокеров
+
+```
+КОНТЕКСТ: Один из этапов разработки или review остановился на blocker, который может быть вызван окружением, evidence-gap или stale artifacts, а не изменением продуктовой логики.
+
+ВХОДНЫЕ ДАННЫЕ:
+- Путь к задаче: {task_dir}
+- Каталог артефактов пайплайна: {artifacts_dir}
+- Краткая сводка блокера от текущего этапа
+- Ссылки на релевантные review/test/evidence артефакты
+
+ТВОЯ ЗАДАЧА:
+Решить, нужно ли запускать отдельный rescuer flow вместо немедленной эскалации пользователю.
+
+ЛОГИКА ПРИНЯТИЯ РЕШЕНИЯ:
+- ЕСЛИ blocker относится к fallback policy, backward compatibility, migration scope, source of truth, rollout semantics или другой product decision → НЕ запускать rescuer, сразу подключить пользователя
+- ЕСЛИ blocker выглядит как environment/evidence/stale-artifact проблема → запустить rescuer executor с task_dir и artifacts_dir, передав только релевантные артефакты
+- ЕСЛИ rescuer executor вернул `resolved` → обновить status, при необходимости выполнить один точечный re-review и продолжить пайплайн
+- ЕСЛИ rescuer executor вернул `still_blocked` или `human_decision_required` → приложить его отчёт и эскалировать пользователю
+
+ОГРАНИЧЕНИЯ ДЛЯ RESCUER:
+- rescuer executor не получает жёстко зашитые task paths; task_dir и artifacts_dir всегда приходят от оркестратора
+- rescuer executor не должен менять код продукта, документацию продукта, task semantics или task contract
+- rescuer executor может только чинить окружение, перезапускать обязательную проверку, регенерировать task-local evidence и чистить/архивировать task-local stage artifacts
 ```
 
 ---
