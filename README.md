@@ -15,7 +15,7 @@
 - [07_agent_plan_reviewer.md](https://github.com/rdudov/agents/blob/master/07_agent_plan_reviewer.md)
 - [08_agent_developer.md](https://github.com/rdudov/agents/blob/master/08_agent_developer.md)
 - [09_agent_code_reviewer.md](https://github.com/rdudov/agents/blob/master/09_agent_code_reviewer.md)
-- [10_agent_blocker_rescuer.md](https://github.com/rdudov/agents/blob/master/10_agent_blocker_rescuer.md) — optional summary layer after deterministic rescuer executor
+- [10_agent_blocker_rescuer.md](https://github.com/rdudov/agents/blob/master/10_agent_blocker_rescuer.md) — опциональный summary-слой после deterministic rescuer executor для environment/evidence/stale-artifact блокеров
 
 Пример промпта для запуска мультиагентной разработки в Cursor, чтобы он автоматически стартовал субагентов с нужными ролями. 
 ```
@@ -30,6 +30,7 @@
 Агентов нужно вызывать shell-командами:
 agent -f --model {модель} -p {промпт}
 и дожидаться от них результатов.
+Если пайплайн упирается в environment/evidence/stale-artifact blocker, используй rescuer executor, а 10_agent_blocker_rescuer.md — только для краткой интерпретации его результата.
 
 Промпт следующего формата:
 "{содержимое файла с ролью} {входные данные согласно описанию роли}"

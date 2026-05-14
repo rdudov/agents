@@ -86,6 +86,13 @@
 - Анализирует отчёт о тестировании
 - Проверяет, что production-relevant runtime branches не закрыты одной happy-path проверкой или mock-only тестами
 
+### 10. Rescuer summary agent
+**Функция:** Краткая интерпретация результата deterministic rescuer executor
+- Подключается только по решению оркестратора для environment/evidence/stale-artifact блокеров
+- Не меняет продуктовый код, продуктовую документацию, task semantics или task contract
+- Не придумывает fallback policy, compatibility story, migration plan или rollout semantics
+- Возвращает оркестратору понятную сводку: blocker снят, остаётся заблокированным или требует решения человека
+
 ## Принципы работы системы
 
 ### Подход "сверху вниз"
@@ -166,6 +173,20 @@
                      Ревьюер кода (повторно)
 ```
 **Циклы:** 1 итерация исправлений (всего 2 review)
+
+### Дополнительная ветка: Rescuer
+```
+Blocker от review/test/evidence
+            ↓
+Оркестратор классифицирует причину
+            ↓
+Deterministic rescuer executor чинит только окружение/evidence/task-local artifacts
+            ↓
+Rescuer summary agent кратко объясняет результат
+            ↓
+Оркестратор продолжает пайплайн, запускает точечный re-review или эскалирует человеку
+```
+**Ограничение:** Rescuer не используется для продуктовых решений: fallback policy, backward compatibility, миграции, source of truth, rollout semantics и другие вопросы семантики должны останавливаться на человеке.
 
 ## Документация проекта
 
